@@ -34,9 +34,6 @@ creditCards = info[2]
 usernames = user_passes.keys()
 password = user_passes.values()
 
-dfa = [list(user_passes.keys()),list(user_passes.values()),list(amounts.values()),list(creditCards.values())]
-dfa = pd.DataFrame(dfa)
-
 admin_password = "1111"
 
 # Styling_variables
@@ -204,11 +201,9 @@ def admin_account(root):
 
 def display_information():
     def openfile():
-        labels = ["Password","Current Balance","Credit Card Number"]
-        # df=pd.DataFrame(dfa,index =labels)
-        # df.to_csv("display.csv")
-        # filename = "display.csv"
-        # dfa = pd.read_csv(filename)
+        dfa = [list(user_passes.keys()), list(user_passes.values()), list(amounts.values()), list(creditCards.values())]
+        dfa = pd.DataFrame(dfa)
+        print(dfa)
         table.delete(*table.get_children())
         table["columns"] = list(dfa.columns) # Changed
         table["show"] = "headings"
