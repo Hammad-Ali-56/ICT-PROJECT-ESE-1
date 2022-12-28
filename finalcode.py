@@ -483,8 +483,6 @@ def logout():
 
 #######################################################-MAIN PROGRAM-############################################################################
 
-pagenum = 1  # initializing_page_number,later_used_for_switching_between_different_pages
-
 root = Tk()  # creating_window
 
 # importing images
