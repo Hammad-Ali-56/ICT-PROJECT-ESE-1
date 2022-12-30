@@ -6,7 +6,6 @@ from time import sleep
 from random import randint
 import pandas as pd
 import numpy
-import csv
 
 
 # IMPORTING FILES
@@ -166,7 +165,7 @@ def user_account(root):
     logout_img = PhotoImage(file="logout.png")
     page = Frame(root)
 
-    Label(root, text="WELCOME!  " + user.upper(), wraplength=431, justify=CENTER, font='calibri 36 bold underline',
+    Label(root, text="WELCOME " + user.upper()+"!", wraplength=431, justify=CENTER, font='calibri 36 bold underline',
           bg=bg, fg='#1F1A24').place(x=290, y=100)
     Button(root, text="● Log out", font='calibri 14 bold underline', fg=bg, bg='#1F1A24', borderwidth=0, width="11",
            pady=7, command=logout).place(x=860, y=60)
@@ -197,22 +196,23 @@ def admin_account(root):
     Button(root, text="Display Information", font='arial 16', borderwidth=0, width="15", pady="15", bg='#1F1A24', fg=bg,
            command=display_information).place(x=400, y=250)
 
-
-
 def display_information():
     def openfile():
+        Button(root, text="Move Information to csv", font='arial 16', borderwidth=0, width="25", pady="10",
+               bg='#1F1A24', fg=bg,
+               command=csv_formation).place(x=730, y=620)
         dfa = [list(user_passes.keys()), list(user_passes.values()), list(amounts.values()), list(creditCards.values())]
-        dfa = pd.DataFrame(dfa)
-        print(dfa)
+        df = pd.DataFrame(dfa)
+        print(df)
         table.delete(*table.get_children())
-        table["columns"] = list(dfa.columns) # Changed
+        table["columns"] = list(df.columns) # Changed
         table["show"] = "headings"
         table.delete(*table.get_children())
         for column in table["columns"]:
             table.column(column, width=70)
             table.heading(column, text=column)
 
-        table_rows = dfa.to_numpy().tolist()
+        table_rows = df.to_numpy().tolist()
         for row in table_rows:
             table.insert("", "end", values=row)
         # return None
@@ -220,7 +220,7 @@ def display_information():
         widget.destroy()
     logout_img = PhotoImage(file="logout.png")
     page = Frame(root)
-    global bg, fg
+    # global bg, fg
     frame1=Frame(admin_account(root) )
     frame1.place(x=75,y=200,height= 400,width= 900)
     frame1.place(x=80,y=200,height= 400,width= 900)
@@ -234,7 +234,12 @@ def display_information():
     openfile()
 
 
-
+def csv_formation():
+    dfa = [list(user_passes.keys()), list(user_passes.values()), list(amounts.values()), list(creditCards.values())]
+    df = pd.DataFrame(dfa)
+    df.to_csv("Information.csv")
+    showinfo(title='Transfer of information Completed',
+             message='Data has been transfered to csv file successfully!')
 
 def transfer():
     global bg, fg
